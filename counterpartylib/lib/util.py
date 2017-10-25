@@ -121,12 +121,12 @@ def generate_asset_id(asset_name, block_index):
 
     # Numeric asset names.
     if enabled('numeric_asset_names'):  # Protocol change.
-        if asset_name[0] == 'A':
+        if asset_name[0] == 'A' and asset_name[1].isdigit():
             # Must be numeric.
             try:
                 asset_id = int(asset_name[1:])
             except ValueError:
-                raise exceptions.AssetNameError('non‐numeric asset name starts with ‘A’')
+                raise exceptions.AssetNameError('invalid numeric asset characters')
 
             # Number must be in range.
             if not (26**12 + 1 <= asset_id <= 2**64 - 1):
@@ -135,8 +135,6 @@ def generate_asset_id(asset_name, block_index):
             return asset_id
         elif len(asset_name) >= 13:
             raise exceptions.AssetNameError('long asset names must be numeric')
-
-    if asset_name[0] == 'A': raise exceptions.AssetNameError('non‐numeric asset name starts with ‘A’')
 
     # Convert the Base 26 string to an integer.
     n = 0
@@ -287,8 +285,8 @@ def validate_subasset_parent_name(asset_name):
         raise exceptions.AssetNameError('parent asset name too short')
     if len(asset_name) >= 13:
         raise exceptions.AssetNameError('parent asset name too long')
-    if asset_name[0] == 'A':
-        raise exceptions.AssetNameError('parent asset name starts with ‘A’')
+    if asset_name[0] == 'A' and asset_name[1].isdigit():
+        raise exceptions.AssetNameError('parent asset is numeric asset')
     for c in asset_name:
         if c not in B26_DIGITS:
             raise exceptions.AssetNameError('parent asset name contains invalid character:', c)
