@@ -1627,9 +1627,6 @@ UNITTEST_VECTOR = {
             'out': (0, 0.0, ['locked asset and non‐zero quantity'], 0, 'Locked prev', True, True, None)
         }],
         'compose': [{
-            'in': (ADDR[0], None, 'ASSET', 1000, True, ''),
-            'error': (exceptions.AssetNameError, 'non‐numeric asset name starts with ‘A’')
-        }, {
             'in': (ADDR[0], None, 'BSSET1', 1000, True, ''),
             'error': (exceptions.AssetNameError, "('invalid character:', '1')")
         }, {
@@ -3725,8 +3722,8 @@ UNITTEST_VECTOR = {
             'in': ('BCD', 308000),
             'error': (exceptions.AssetNameError, 'too short')
         }, {
-            'in': ('ABCD', 308000),
-            'error': (exceptions.AssetNameError, 'non‐numeric asset name starts with ‘A’')
+            'in': ('A123456ABC', 308000),
+            'error': (exceptions.AssetNameError, 'invalid numeric asset characters')
         }, {
             'in': ('A{}'.format(26**12), 308000),
             'error': (exceptions.AssetNameError, 'numeric asset name not in range')
@@ -3991,8 +3988,8 @@ UNITTEST_VECTOR = {
             'error': (exceptions.AssetNameError, "parent asset name too short")
         },
         {
-            'in': ('ABADPARENT.child1',),
-            'error': (exceptions.AssetNameError, "parent asset name starts with ‘A’")
+            'in': ('A12345678910.child1',),
+            'error': (exceptions.AssetNameError, "parent asset is numeric asset")
         },
         {
             'in': ('BTC.child1',),
