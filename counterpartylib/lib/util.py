@@ -116,7 +116,7 @@ def generate_asset_id(asset_name, block_index):
     if asset_name == config.BTC: return 0
     elif asset_name == config.XCP: return 1
 
-    if len(asset_name) < 4:
+    if len(asset_name) < 3:    # Protocol change.
         raise exceptions.AssetNameError('too short')
 
     # Numeric asset names.
