@@ -174,7 +174,7 @@ def validate (db, source, destination, asset, quantity, divisible, callable_, ca
             problems.append('subasset already exists')
 
         # validate that the actual asset is numeric
-        if len(asset) < 12:
+        if len(asset) < 13:
             problems.append('a subasset must be a numeric asset')
 
 
