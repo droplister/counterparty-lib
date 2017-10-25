@@ -193,6 +193,8 @@ def validate (db, source, destination, asset, quantity, divisible, callable_, ca
                     fee = int(0.25 * config.UNIT)
                 elif len(asset) >= 13:
                     fee = 0
+                elif len(asset) == 3:    # Protocol change.
+                    fee = int(10 * config.UNIT)
                 else:
                     fee = int(0.5 * config.UNIT)
             elif block_index >= 291700 or config.TESTNET:     # Protocol change.
