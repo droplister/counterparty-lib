@@ -1633,7 +1633,7 @@ UNITTEST_VECTOR = {
             'in': (ADDR[0], None, 'BSSET1', 1000, True, ''),
             'error': (exceptions.AssetNameError, "('invalid character:', '1')")
         }, {
-            'in': (ADDR[0], None, 'SET', 1000, True, ''),
+            'in': (ADDR[0], None, 'SH', 1000, True, ''),
             'error': (exceptions.AssetNameError, 'too short')
         }, {
             'in': (ADDR[0], None, 'BSSET', 1000, True, ''),
@@ -3722,7 +3722,7 @@ UNITTEST_VECTOR = {
             'in': ('XCP', DP['default_block_index']),
             'out': 1
         }, {
-            'in': ('BCD', 308000),
+            'in': ('BC', 308000),
             'error': (exceptions.AssetNameError, 'too short')
         }, {
             'in': ('ABCD', 308000),
