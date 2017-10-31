@@ -148,7 +148,7 @@ def generate_asset_id(asset_name, block_index):
         n += digit
     asset_id = n
 
-    if asset_id < 26**3:
+    if asset_id < 26**2:    # Protocol change.
         raise exceptions.AssetNameError('too short')
 
     return asset_id
@@ -158,7 +158,7 @@ def generate_asset_name (asset_id, block_index):
     if asset_id == 0: return config.BTC
     elif asset_id == 1: return config.XCP
 
-    if asset_id < 26**3:
+    if asset_id < 26**2:    # Protocol change.
         raise exceptions.AssetIDError('too low')
 
     if enabled('numeric_asset_names'):  # Protocol change.
