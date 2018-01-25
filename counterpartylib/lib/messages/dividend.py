@@ -84,18 +84,13 @@ def activate_dividend (db, dividend, status, block_index):
         holders = util.holders(db, dividend['asset'])
 
         for holder in holders:
-            address = holder['address']
-            address_quantity = holder['address_quantity']
-            if block_index >= 296000 or config.TESTNET: # Protocol change.
-                if address == source: continue
-
-            dividend_quantity = address_quantity * quantity_per_unit
+            dividend_quantity = holder['address_quantity'] * quantity_per_unit
             if divisible: dividend_quantity /= config.UNIT
             if not dividend_divisible: dividend_quantity /= config.UNIT
             if dividend_asset == config.BTC and dividend_quantity < config.DEFAULT_MULTISIG_DUST_SIZE: continue    # A bit hackish.
             dividend_quantity = int(dividend_quantity)
 
-            util.credit(db, address, dividend['dividend_asset'], dividend_quantity, action='dividend', event=tx['tx_hash'])
+            util.credit(db, holder['address'], dividend['dividend_asset'], dividend_quantity, action='dividend', event=tx['tx_hash'])
 
     if status == 'complete':
         # Record dividend activation.
@@ -334,7 +329,7 @@ def parse (db, tx, message):
 def activate (db, block_index):
     cursor = db.cursor()
 
-    # Parse scheduled dividends
+    # Activate scheduled dividends
     cursor.execute('''SELECT * FROM dividends \
                       WHERE (status = ? AND activate_index < ?)''', ('pending', block_index))
     dividends = list(cursor)
