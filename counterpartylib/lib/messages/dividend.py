@@ -123,16 +123,17 @@ def validate (db, source, quantity_per_unit, asset, dividend_asset, block_index,
         problems.append('integer overflow')
 
     # Enforce activation rules
-    if(activation is not None):
+    if activation is not None:
         if util.enabled('scheduled_dividends'):
-            if(activation < 0): problems.append('negative activation')
+            if activation < 0:
+                problems.append('negative activation')
             if not isinstance(activation, int):
                 problems.append('activation must be expressed as an integer block delta')
-            if(activation <= block_index):
+            if activation <= block_index:
                 problems.append('activation must be future block height')
-            if(activation - block_index < 144):
+            if activation - block_index < 144:
                 problems.append('activation must be 144 or more blocks from now')
-            if activation > config.MAX_ACTIVATION:
+            if activation - block_index > config.MAX_ACTIVATION:
                 problems.append('activation overflow')
         else:
                 problems.append('scheduled dividends are not enabled')
@@ -150,8 +151,8 @@ def validate (db, source, quantity_per_unit, asset, dividend_asset, block_index,
             problems.append('only issuer can pay dividends')
 
     # Enforce locked requirement
-    if(activation is not None):
-        if(not issuances[-1]['locked']):
+    if activation is not None:
+        if not issuances[-1]['locked']:
             problems.append('asset and dividend_asset must be locked')
 
     # Examine dividend asset.
@@ -165,8 +166,8 @@ def validate (db, source, quantity_per_unit, asset, dividend_asset, block_index,
         dividend_divisible = issuances[0]['divisible']
 
     # Enforce locked requirement
-    if(activation is not None):
-        if(not issuances[-1]['locked']):
+    if activation is not None :
+        if not issuances[-1]['locked']:
             problems.append('asset and dividend_asset must be locked')
 
     # Calculate dividend quantities.
@@ -175,7 +176,7 @@ def validate (db, source, quantity_per_unit, asset, dividend_asset, block_index,
     addresses = []
     dividend_total = 0
 
-    if(activation is not None):
+    if activation is not None:
         issuances = list(cursor.execute('''SELECT * FROM issuances WHERE (status = ? AND asset = ?)''', ('valid', asset)))
         asset_issuance = sum([issuance['quantity'] for issuance in issuances])
 

@@ -57,9 +57,9 @@ from counterpartylib.lib.messages import execute
 API_TABLES = ['assets', 'balances', 'credits', 'debits', 'bets', 'bet_matches',
               'broadcasts', 'btcpays', 'burns', 'cancels',
               'dividends', 'issuances', 'orders', 'order_matches', 'sends',
-              'bet_expirations', 'order_expirations', 'bet_match_expirations',
-              'order_match_expirations', 'bet_match_resolutions', 'rps',
-              'rpsresolves', 'rps_matches', 'rps_expirations', 'rps_match_expirations',
+              'divdend_activations', 'bet_expirations', 'order_expirations',
+              'bet_match_expirations', 'order_match_expirations', 'bet_match_resolutions',
+              'rps', 'rpsresolves', 'rps_matches', 'rps_expirations', 'rps_match_expirations',
               'mempool']
 
 API_TRANSACTIONS = ['bet', 'broadcast', 'btcpay', 'burn', 'cancel',
@@ -708,7 +708,7 @@ class APIServer(threading.Thread):
             for element in ['transactions', 'blocks', 'debits', 'credits', 'balances', 'sends', 'orders',
                 'order_matches', 'btcpays', 'issuances', 'broadcasts', 'bets', 'bet_matches', 'dividends',
                 'burns', 'cancels', 'order_expirations', 'bet_expirations', 'order_match_expirations',
-                'bet_match_expirations', 'messages']:
+                'bet_match_expirations', 'messages', 'dividend_activations']:
                 cursor.execute("SELECT COUNT(*) AS count FROM %s" % element)
                 count_list = cursor.fetchall()
                 assert len(count_list) == 1
